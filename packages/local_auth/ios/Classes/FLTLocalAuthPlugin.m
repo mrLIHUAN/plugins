@@ -62,9 +62,13 @@
                 }];
     [alert addAction:additionalAction];
   }
-  [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:alert
-                                                                                     animated:YES
-                                                                                   completion:nil];
+    // GCD
+    dispatch_async(dispatch_get_main_queue(), ^{
+       [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:alert
+         animated:YES
+       completion:nil];
+    });
+  
 }
 
 - (void)getAvailableBiometrics:(FlutterResult)result {
@@ -96,7 +100,7 @@
   NSError *authError = nil;
   self.lastCallArgs = nil;
   self.lastResult = nil;
-  context.localizedFallbackTitle = @"";
+  context.localizedFallbackTitle = arguments[@"fallbackTitleButton"];
 
   if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
                            error:&authError]) {

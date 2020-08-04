@@ -60,12 +60,14 @@ class IOSAuthMessages {
     this.goToSettingsButton,
     this.goToSettingsDescription,
     this.cancelButton,
+    this.fallbackTitleButton,
   });
 
   final String lockOut;
   final String goToSettingsButton;
   final String goToSettingsDescription;
   final String cancelButton;
+  final String fallbackTitleButton;
 
   Map<String, String> get args {
     return <String, String>{
@@ -74,6 +76,7 @@ class IOSAuthMessages {
       'goToSettingDescriptionIOS':
           goToSettingsDescription ?? iOSGoToSettingsDescription,
       'okButton': cancelButton ?? iOSOkButton,
+      'fallbackTitleButton' : fallbackTitleButton ?? '',
     };
   }
 }
