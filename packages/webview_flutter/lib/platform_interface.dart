@@ -430,6 +430,7 @@ class CreationParams {
     this.webSettings,
     this.javascriptChannelNames,
     this.userAgent,
+    this.cookieList,
     this.autoMediaPlaybackPolicy =
         AutoMediaPlaybackPolicy.require_user_action_for_all_media_types,
   }) : assert(autoMediaPlaybackPolicy != null);
@@ -439,6 +440,7 @@ class CreationParams {
   /// When null the webview will be created without loading any page.
   final String initialUrl;
 
+  final List<Map<String,String>> cookieList;
   /// The initial [WebSettings] for the new webview.
   ///
   /// This can later be updated with [WebViewPlatformController.updateSettings].

@@ -85,6 +85,25 @@
     }
 
     NSDictionary<NSString*, id>* settings = args[@"settings"];
+    NSArray *cookies = args[@"cookieList"];
+      NSString* initialUrl = args[@"initialUrl"];
+    //应用于 ajax 请求的 cookie 设置
+//    WKUserContentController *userContentController = WKUserContentController.new;
+    // 应用于 request 的 cookie 设置
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: initialUrl]];
+    NSDictionary *headFields = request.allHTTPHeaderFields;
+
+    [cookies enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSDictionary *dic = obj;
+        NSString *cookieSource = [NSString stringWithFormat:@"document.cookie = '%@=%@;path=/';",dic[@"k"], dic[@"v"]];
+        WKUserScript *cookieScript = [[WKUserScript alloc] initWithSource:cookieSource injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
+        [userContentController addUserScript:cookieScript];
+
+        NSString *cookie = headFields[dic[@"k"]];
+        if (cookie == nil) {
+            [request addValue:[NSString stringWithFormat:@"%@=%@",dic[@"k"] , dic[@"v"]] forHTTPHeaderField:@"Cookie"];
+        }
+    }];
 
     WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
     configuration.userContentController = userContentController;
@@ -111,7 +130,7 @@
     // TODO(amirh): return an error if apply settings failed once it's possible to do so.
     // https://github.com/flutter/flutter/issues/36228
 
-    NSString* initialUrl = args[@"initialUrl"];
+    
     if ([initialUrl isKindOfClass:[NSString class]]) {
       [self loadUrl:initialUrl];
     }

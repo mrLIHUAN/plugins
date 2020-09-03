@@ -196,6 +196,7 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
       'settings': _webSettingsToMap(creationParams.webSettings),
       'javascriptChannelNames': creationParams.javascriptChannelNames.toList(),
       'userAgent': creationParams.userAgent,
+      'cookieList': creationParams.cookieList,
       'autoMediaPlaybackPolicy': creationParams.autoMediaPlaybackPolicy.index,
     };
   }

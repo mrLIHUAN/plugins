@@ -145,6 +145,7 @@ class WebView extends StatefulWidget {
     this.onWebViewCreated,
     this.initialUrl,
     this.javascriptMode = JavascriptMode.disabled,
+    this.cookieList,
     this.javascriptChannels,
     this.navigationDelegate,
     this.gestureRecognizers,
@@ -196,6 +197,7 @@ class WebView extends StatefulWidget {
   /// If not null invoked once the web view is created.
   final WebViewCreatedCallback onWebViewCreated;
 
+  final List<Map<String,String>> cookieList;
   /// Which gestures should be consumed by the web view.
   ///
   /// It is possible for other gesture recognizers to be competing with the web view on pointer
@@ -392,6 +394,7 @@ CreationParams _creationParamsfromWidget(WebView widget) {
     webSettings: _webSettingsFromWidget(widget),
     javascriptChannelNames: _extractChannelNames(widget.javascriptChannels),
     userAgent: widget.userAgent,
+    cookieList: widget.cookieList,
     autoMediaPlaybackPolicy: widget.initialMediaPlaybackPolicy,
   );
 }
