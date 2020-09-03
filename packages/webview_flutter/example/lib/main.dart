@@ -55,9 +55,9 @@ class _WebViewExampleState extends State<WebViewExample> {
           onWebViewCreated: (WebViewController webViewController) {
             _controller.complete(webViewController);
           },
-          cookieList: [
-            {'k': 'app_user_auth', 'v': 'll123123123123123123'},
-          ],
+//          cookieList: [
+////            {'k': 'app_user_auth', 'v': 'll123123123123123123'},
+//          ],
           // TODO(iskakaushik): Remove this when collection literals makes it to stable.
           // ignore: prefer_collection_literals
           javascriptChannels: <JavascriptChannel>[
