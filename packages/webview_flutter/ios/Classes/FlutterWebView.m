@@ -39,6 +39,7 @@
 - (void)setFrame:(CGRect)frame {
   [super setFrame:frame];
   self.scrollView.contentInset = UIEdgeInsetsZero;
+  self.scrollView.bounces = NO;
   // We don't want the contentInsets to be adjusted by iOS, flutter should always take control of
   // webview's contentInsets.
   // self.scrollView.contentInset = UIEdgeInsetsZero;
@@ -87,10 +88,6 @@
     NSDictionary<NSString*, id>* settings = args[@"settings"];
       NSArray *cookies = args[@"cookieList"];
       NSString* initialUrl = args[@"initialUrl"];
-    //应用于 ajax 请求的 cookie 设置
-//    WKUserContentController *userContentController = WKUserContentController.new;
-    // 应用于 request 的 cookie 设置
-      
       if(![cookies isKindOfClass:[NSNull class]]){
           NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString: initialUrl]];
           NSDictionary *headFields = request.allHTTPHeaderFields;
