@@ -7,9 +7,12 @@ package io.flutter.plugins.webviewflutter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.display.DisplayManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebStorage;
 import android.webkit.WebViewClient;
 import io.flutter.plugin.common.BinaryMessenger;
@@ -68,9 +71,11 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
 
     if (params.containsKey("initialUrl")) {
       String url = (String) params.get("initialUrl");
-      if(params.containKey("cookieList")){
+      if(params.containsKey("cookieList")){
         List<Map<String, String>> cookieList = (List<Map<String, String>>) params.get("cookieList");
-        setCookie(url, cookieList);
+        if (cookieList != null) {
+          setCookie(context, url, cookieList);
+        }
       }
       webView.loadUrl(url);
     }
@@ -360,7 +365,7 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
   }
 
   //cookie必须要在settings之后loadUrl之前，否则设置无效
-  private void setCookie(String url, List<Map<String, String>> cookieList) {
+  private void setCookie(Context context, String url, List<Map<String, String>> cookieList) {
     CookieManager cookieManager = CookieManager.getInstance();
     cookieManager.setAcceptCookie(true);
     cookieManager.removeAllCookie();
@@ -375,7 +380,12 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
     }
     //cookies是在HttpClient中获得的cookie
 
-    cookieManager.flush();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      cookieManager.flush();
+    } else {
+      CookieSyncManager.createInstance(context.getApplicationContext());
+      CookieSyncManager.getInstance().sync();
+    }
   }
 
   @Override
