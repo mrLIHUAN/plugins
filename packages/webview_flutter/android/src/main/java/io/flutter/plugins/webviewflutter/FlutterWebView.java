@@ -65,8 +65,13 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
       String userAgent = (String) params.get("userAgent");
       updateUserAgent(userAgent);
     }
+
     if (params.containsKey("initialUrl")) {
       String url = (String) params.get("initialUrl");
+      if(params.containKey("cookieList")){
+        List<Map<String, String>> cookieList = (List<Map<String, String>>) params.get("cookieList");
+        setCookie(url, cookieList);
+      }
       webView.loadUrl(url);
     }
   }
@@ -352,6 +357,25 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
 
   private void updateUserAgent(String userAgent) {
     webView.getSettings().setUserAgentString(userAgent);
+  }
+
+  //cookie必须要在settings之后loadUrl之前，否则设置无效
+  private void setCookie(String url, List<Map<String, String>> cookieList) {
+    CookieManager cookieManager = CookieManager.getInstance();
+    cookieManager.setAcceptCookie(true);
+    cookieManager.removeAllCookie();
+    cookieManager.removeSessionCookie();//移除
+
+    Uri uri = Uri.parse(url);
+    String domain = uri.getHost();
+
+    for (int i = 0; i < cookieList.size(); i++) {
+      Map<String, String> map = cookieList.get(i);
+      cookieManager.setCookie(domain, map.get("k") + '=' + map.get("v"));
+    }
+    //cookies是在HttpClient中获得的cookie
+
+    cookieManager.flush();
   }
 
   @Override
