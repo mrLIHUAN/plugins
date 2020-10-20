@@ -34,25 +34,3 @@ Add `webview_flutter` as a [dependency in your pubspec.yaml file](https://flutte
 
 You can now include a WebView widget in your widget tree.
 See the WebView widget's Dartdoc for more details on how to use the widget.
-
-## Android配置
-在AndroidManifest中配置
- <provider
-      android:name="androidx.core.content.FileProvider"
-      android:authorities="${applicationId}.fileProvider"
-      android:exported="false"
-      android:grantUriPermissions="true">
-      <meta-data
-          android:name="android.support.FILE_PROVIDER_PATHS"
-          android:resource="@xml/file_paths" />
-  </provider>
-  
-在xml中配置
- <?xml version="1.0" encoding="utf-8"?>
- <resources>
-     <paths>
-         <root-path
-             name="."
-             path="." />
-     </paths>
- </resources>

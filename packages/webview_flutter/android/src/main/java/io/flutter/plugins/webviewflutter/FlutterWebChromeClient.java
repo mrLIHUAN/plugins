@@ -11,7 +11,6 @@ import android.webkit.WebView;
 import java.io.File;
 
 import io.flutter.plugins.webviewflutter.utils.ActivityUtils;
-import io.flutter.plugins.webviewflutter.utils.FileUtils;
 import io.flutter.plugins.webviewflutter.utils.IntentUtils;
 import io.flutter.plugins.webviewflutter.utils.ResultFragment.ResultCallBack;
 
@@ -39,8 +38,7 @@ public class FlutterWebChromeClient extends WebChromeClient {
 
     //调用系统图库
     private void startImageChooser(final ValueCallback<Uri> filePathCallback, String acceptType, String capture) {
-        final File file = FileUtils.getTmpPicFile();
-        Intent pickerIntent = IntentUtils.imagePickerIntent(context, file);
+        Intent pickerIntent = IntentUtils.imagePickerIntent(context);
         if (filePathCallback == null) return;
         ActivityUtils.startActivityForResult(activity, pickerIntent, new ResultCallBack() {
             @Override
@@ -62,8 +60,7 @@ public class FlutterWebChromeClient extends WebChromeClient {
 
     //调用系统图库
     private void startImageChooser(final ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-        final File file = FileUtils.getTmpPicFile();
-        Intent pickerIntent = IntentUtils.imagePickerIntent(context, file);
+        Intent pickerIntent = IntentUtils.imagePickerIntent(context);
         if (filePathCallback == null) return;
         ActivityUtils.startActivityForResult(activity, pickerIntent, new ResultCallBack() {
             @Override
