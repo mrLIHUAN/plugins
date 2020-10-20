@@ -7,9 +7,10 @@ package io.flutter.plugins.webviewflutterexample;
 import android.os.Bundle;
 import dev.flutter.plugins.e2e.E2EPlugin;
 import io.flutter.app.FlutterActivity;
+import io.flutter.app.FlutterFragmentActivity;
 import io.flutter.plugins.webviewflutter.WebViewFlutterPlugin;
 
-public class EmbeddingV1Activity extends FlutterActivity {
+public class EmbeddingV1Activity extends FlutterFragmentActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

@@ -41,9 +41,9 @@ public class IntentUtils {
         return intent;
     }
 
-    private static Uri getUriForFile(Context context, File file) {
+    public static Uri getUriForFile(Context context, File file) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return FileProvider.getUriForFile(context, context.getPackageName(), file);
+            return FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider", file);
         } else {
             return Uri.fromFile(file);
         }

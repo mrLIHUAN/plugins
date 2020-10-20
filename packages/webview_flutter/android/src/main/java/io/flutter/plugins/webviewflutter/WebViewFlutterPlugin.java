@@ -4,8 +4,11 @@
 
 package io.flutter.plugins.webviewflutter;
 
+import android.app.Activity;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.BinaryMessenger;
+import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /**
@@ -18,6 +21,8 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
  */
 public class WebViewFlutterPlugin implements FlutterPlugin {
 
+  public static Registrar registrar;
+  public static Activity activity;
   private FlutterCookieManager flutterCookieManager;
 
   /**
@@ -42,6 +47,8 @@ public class WebViewFlutterPlugin implements FlutterPlugin {
    * won't react to changes in activity or context, unlike {@link CameraPlugin}.
    */
   public static void registerWith(Registrar registrar) {
+    WebViewFlutterPlugin.registrar = registrar;
+    WebViewFlutterPlugin.activity = registrar.activity();
     registrar
         .platformViewRegistry()
         .registerViewFactory(
