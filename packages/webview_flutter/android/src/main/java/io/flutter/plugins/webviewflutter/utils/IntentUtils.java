@@ -14,20 +14,20 @@ public class IntentUtils {
     /**
      * 系统拍照和图库选择器
      */
-    public static Intent imagePickerIntent(Context context, File file) {
+    public static Intent imagePickerIntent(Context context) {
         Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
         chooserIntent.putExtra(Intent.EXTRA_INTENT, chooseImageIntent());
         //chooserIntent.putExtra(Intent.EXTRA_TITLE, "选择操作")
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cameraIntent(context, file)});
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cameraIntent(context)});
         return chooserIntent;
     }
 
     /**
      * 获取系统相机Intent
      */
-    public static Intent cameraIntent(Context context, File file) {
+    public static Intent cameraIntent(Context context) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriForFile(context, file));
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, getUriForFile(context, file));
         return intent;
     }
 
