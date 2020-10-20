@@ -8,8 +8,6 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import java.io.File;
-
 import io.flutter.plugins.webviewflutter.utils.ActivityUtils;
 import io.flutter.plugins.webviewflutter.utils.IntentUtils;
 import io.flutter.plugins.webviewflutter.utils.ResultFragment.ResultCallBack;
@@ -47,10 +45,7 @@ public class FlutterWebChromeClient extends WebChromeClient {
                     filePathCallback.onReceiveValue(null);
                     return;
                 }
-                if (data == null) {
-                    Uri uri = IntentUtils.getUriForFile(context, file);
-                    filePathCallback.onReceiveValue(uri);
-                } else {
+                if (data != null) {
                     Uri result = data.getData();
                     filePathCallback.onReceiveValue(result);
                 }
@@ -69,10 +64,7 @@ public class FlutterWebChromeClient extends WebChromeClient {
                     filePathCallback.onReceiveValue(null);
                     return;
                 }
-                if (data == null) {
-                    Uri uri = IntentUtils.getUriForFile(context, file);
-                    filePathCallback.onReceiveValue(new Uri[]{uri});
-                } else {
+                if (data != null) {
                     Uri result = data.getData();
                     filePathCallback.onReceiveValue(result == null ? null : new Uri[]{result});
                 }
