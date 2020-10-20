@@ -3,8 +3,10 @@ version '1.0-SNAPSHOT'
 
 buildscript {
     repositories {
-        google()
-        jcenter()
+        maven { url "https://maven.aliyun.com/repository/google" }
+        maven { url "https://maven.aliyun.com/repository/jcenter" }
+        maven{url 'http://maven.aliyun.com/nexus/content/groups/public'}
+        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
     }
 
     dependencies {
@@ -14,8 +16,9 @@ buildscript {
 
 rootProject.allprojects {
     repositories {
-        google()
-        jcenter()
+        maven { url "https://maven.aliyun.com/repository/google" }
+        maven { url "https://maven.aliyun.com/repository/jcenter" }
+        maven{url 'http://maven.aliyun.com/nexus/content/groups/public'}
     }
 }
 

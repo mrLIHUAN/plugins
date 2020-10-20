@@ -5,7 +5,9 @@
 package io.flutter.plugins.webviewflutter;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.display.DisplayManager;
 import android.net.Uri;
 import android.os.Build;
@@ -13,14 +15,27 @@ import android.os.Handler;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebStorage;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.core.content.FileProvider;
+
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.platform.PlatformView;
+import io.flutter.plugins.webviewflutter.utils.ActivityUtils;
+import io.flutter.plugins.webviewflutter.utils.FileUtils;
+import io.flutter.plugins.webviewflutter.utils.IntentUtils;
+import io.flutter.plugins.webviewflutter.utils.ResultFragment;
+import io.flutter.plugins.webviewflutter.utils.ResultFragment.ResultCallBack;
+
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +73,8 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
 
     flutterWebViewClient = new FlutterWebViewClient(methodChannel);
     applySettings((Map<String, Object>) params.get("settings"));
+
+    webView.setWebChromeClient(new FlutterWebChromeClient(context));
 
     if (params.containsKey(JS_CHANNEL_NAMES_FIELD)) {
       registerJavaScriptChannelNames((List<String>) params.get(JS_CHANNEL_NAMES_FIELD));
