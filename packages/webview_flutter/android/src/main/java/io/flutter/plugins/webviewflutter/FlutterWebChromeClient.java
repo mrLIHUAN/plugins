@@ -8,14 +8,14 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import androidx.core.content.FileProvider;
-
 import java.io.File;
 
 import io.flutter.plugins.webviewflutter.utils.ActivityUtils;
 import io.flutter.plugins.webviewflutter.utils.FileUtils;
 import io.flutter.plugins.webviewflutter.utils.IntentUtils;
 import io.flutter.plugins.webviewflutter.utils.ResultFragment.ResultCallBack;
+
+import static io.flutter.plugins.webviewflutter.WebViewFlutterPlugin.activity;
 
 public class FlutterWebChromeClient extends WebChromeClient {
 
@@ -42,14 +42,15 @@ public class FlutterWebChromeClient extends WebChromeClient {
         final File file = FileUtils.getTmpPicFile();
         Intent pickerIntent = IntentUtils.imagePickerIntent(context, file);
         if (filePathCallback == null) return;
-        ActivityUtils.startActivityForResult(context, pickerIntent, new ResultCallBack() {
+        ActivityUtils.startActivityForResult(activity, pickerIntent, new ResultCallBack() {
             @Override
             public void onResult(int requestCode, int resultCode, Intent data) {
                 if (resultCode != Activity.RESULT_OK) {
+                    filePathCallback.onReceiveValue(null);
                     return;
                 }
                 if (data == null) {
-                    Uri uri = FileProvider.getUriForFile(context, context.getPackageName(), file);
+                    Uri uri = IntentUtils.getUriForFile(context, file);
                     filePathCallback.onReceiveValue(uri);
                 } else {
                     Uri result = data.getData();
@@ -64,14 +65,15 @@ public class FlutterWebChromeClient extends WebChromeClient {
         final File file = FileUtils.getTmpPicFile();
         Intent pickerIntent = IntentUtils.imagePickerIntent(context, file);
         if (filePathCallback == null) return;
-        ActivityUtils.startActivityForResult(context, pickerIntent, new ResultCallBack() {
+        ActivityUtils.startActivityForResult(activity, pickerIntent, new ResultCallBack() {
             @Override
             public void onResult(int requestCode, int resultCode, Intent data) {
                 if (resultCode != Activity.RESULT_OK) {
+                    filePathCallback.onReceiveValue(null);
                     return;
                 }
                 if (data == null) {
-                    Uri uri = FileProvider.getUriForFile(context, context.getPackageName(), file);
+                    Uri uri = IntentUtils.getUriForFile(context, file);
                     filePathCallback.onReceiveValue(new Uri[]{uri});
                 } else {
                     Uri result = data.getData();
