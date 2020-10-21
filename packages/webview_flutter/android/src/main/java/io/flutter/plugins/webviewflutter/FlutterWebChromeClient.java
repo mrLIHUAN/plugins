@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+
+import androidx.annotation.RequiresApi;
 
 import io.flutter.plugins.webviewflutter.utils.ActivityUtils;
 import io.flutter.plugins.webviewflutter.utils.IntentUtils;
@@ -28,6 +31,7 @@ public class FlutterWebChromeClient extends WebChromeClient {
     }
 
     // For Android > 5.0
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
         startImageChooser(filePathCallback, fileChooserParams);
@@ -54,8 +58,9 @@ public class FlutterWebChromeClient extends WebChromeClient {
     }
 
     //调用系统图库
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void startImageChooser(final ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-        Intent pickerIntent = IntentUtils.imagePickerIntent(context);
+        Intent pickerIntent = fileChooserParams.createIntent();
         if (filePathCallback == null) return;
         ActivityUtils.startActivityForResult(activity, pickerIntent, new ResultCallBack() {
             @Override
