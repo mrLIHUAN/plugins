@@ -431,6 +431,7 @@ class CreationParams {
     this.javascriptChannelNames,
     this.userAgent,
     this.cookieList,
+    this.localStorageList,
     this.autoMediaPlaybackPolicy =
         AutoMediaPlaybackPolicy.require_user_action_for_all_media_types,
   }) : assert(autoMediaPlaybackPolicy != null);
@@ -441,6 +442,8 @@ class CreationParams {
   final String initialUrl;
 
   final List<Map<String,String>> cookieList;
+
+  final List<Map<String,String>> localStorageList;
   /// The initial [WebSettings] for the new webview.
   ///
   /// This can later be updated with [WebViewPlatformController.updateSettings].

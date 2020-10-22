@@ -106,7 +106,25 @@
 
       }
       
+      
+      NSArray *localStorageList = args[@"localStorageList"];
+      
+      if(![localStorageList isKindOfClass:[NSNull class]]){
+ 
+
+          [localStorageList enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+              NSDictionary *dic = obj;
+
+              NSString *jsString = [NSString stringWithFormat:@"localStorage.setItem('%@', '%@')", dic[@"k"], dic[@"v"]];
+              WKUserScript *cookieScript = [[WKUserScript alloc] initWithSource:jsString injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
+              [userContentController addUserScript:cookieScript];
+              
+          }];
+
+      }
     
+      
+      
     WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
     configuration.userContentController = userContentController;
     [self updateAutoMediaPlaybackPolicy:args[@"autoMediaPlaybackPolicy"]
